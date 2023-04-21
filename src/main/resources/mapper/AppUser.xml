@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.lanfr0.jwtauth.mapper.AppUserMapper">
+
+    <sql id="appUserColumns">id, first_name, last_name, email, "password", created_at, updated_at</sql>
+
+    <resultMap type="dev.lanfr0.jwtauth.model.User" id="appUserResult">
+        <id column="ID" property="id"/>
+        <result column="FIRST_NAME" property="firstName"/>
+        <result column="LAST_NAME" property="lastName"/>
+        <result column="EMAIL" property="email"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="CREATED_AT" property="createdAt"/>
+        <result column="UPDATED_AT" property="updatedAt"/>
+    </resultMap>
+
+    <insert id="saveUser" parameterType="dev.lanfr0.jwtauth.model.User">
+        INSERT INTO APP_USER (id, first_name, last_name, email, password, created_at, updated_at)
+        VALUES (#{id}, #{firstName}, #{lastName}, #{email}, #{password}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <select id="findByEmail" resultMap="appUserResult">
+        SELECT
+        <include refid="appUserColumns"/>
+        FROM APP_USER
+        WHERE EMAIL = #{email}
+    </select>
+
+    <select id="getAllUsers" resultType="dev.lanfr0.jwtauth.model.User" resultMap="appUserResult">
+        SELECT
+        <include refid="appUserColumns"/>
+        FROM APP_USER
+    </select>
+</mapper>
